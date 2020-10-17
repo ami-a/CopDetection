@@ -3,6 +3,8 @@ This example uses an Object Detection model from the TensorFlow git
 for detecting humans. Using a simple citizen/cop classification model
 I've created using TF, it can now easly detect and track cops in a video using
 a few lines of code.
+The use of the TrackEverything package make the models much more accurate
+and robust, using tracking features and statistics.
 """
 import os
 import numpy as np
@@ -86,8 +88,8 @@ def get_box_cordinates(box,img_shape):
 
 #providing only the classification model path for ClassificationVars since the default loding method
 #tf.keras.models.load_model(path) will work
-CLASS_MODEL_PATH="classification_models/cops_" \
-"0.92770_L_0.35915_opt_RMSprop_loss_b_crossentropy_lr_0.0005_baches_20_shape_[165, 90]_loss.hdf5"
+CLASS_MODEL_PATH="classification_models/" \
+"0.93855_L_0.3909_opt_RMSprop_loss_b_crossentropy_lr_0.0005_baches_20_shape_[165, 90]_auc.hdf5"
 #custome classification model interpolation
 def custome_classify_detection(model,det_images,size=(90,165)):
     """Classify a batch of images
@@ -189,6 +191,9 @@ while cap.isOpened():
 
     #flip the channel order back
     new_frm=cv2.cvtColor(new_frm, cv2.COLOR_RGB2BGR)
+    if TRIM:
+        #resize back frame
+        new_frm=cv2.resize(new_frm,(w,h),fx=0,fy=0, interpolation = cv2.INTER_LINEAR)
     #show frame
     cv2.imshow('frame',new_frm)
     #get a small summary of the number of object of each class
