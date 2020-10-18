@@ -17,6 +17,8 @@ from TrackEverything.detector import Detector
 from TrackEverything.tool_box import DetectionVars,ClassificationVars,InspectorVars
 from TrackEverything.statistical_methods import StatisticalCalculator, StatMethods
 from TrackEverything.visualization_utils import VisualizationVars
+
+from play_video import run_video
 # pylint: enable=wrong-import-position
 
 #custome loading the detection model and only providing the model to the DetectionVars
@@ -132,7 +134,6 @@ def custome_classify_detection(model,det_images,size=(90,165)):
         predictions=reshaped_pred
     return predictions
 
-
 #set the detector
 detector_1=Detector(
     det_vars=DetectionVars(
@@ -157,50 +158,4 @@ detector_1=Detector(
 
 #Test it on a video
 VIDEO_PATH="video/024.mp4"
-cap = cv2.VideoCapture(VIDEO_PATH)
-
-length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-fps=(cap.get(cv2.CAP_PROP_FPS))
-h=int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-w=int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-print(f"h:{h} w:{w} fps:{fps}")
-
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-
-TRIM=True#whether or not to resize frame to max 480px width
-if TRIM and w>480:
-    dst_size=(480,int(480*h/w))
-
-FRAME_NUMBER = -1
-while cap.isOpened():
-    FRAME_NUMBER += 1
-    ret, frame = cap.read()
-    if not ret:
-        break
-    new_frm=frame
-    if TRIM:
-        #resize frame
-        new_frm=cv2.resize(new_frm,dst_size,fx=0,fy=0, interpolation = cv2.INTER_LINEAR)
-    #fix channel order since openCV flips them
-    new_frm=cv2.cvtColor(new_frm, cv2.COLOR_BGR2RGB)
-
-    #update the detector using the current frame
-    detector_1.update(new_frm)
-    #add the bounding boxes to the frame
-    detector_1.draw_visualization(new_frm)
-
-    #flip the channel order back
-    new_frm=cv2.cvtColor(new_frm, cv2.COLOR_RGB2BGR)
-    if TRIM:
-        #resize back frame
-        new_frm=cv2.resize(new_frm,(w,h),fx=0,fy=0, interpolation = cv2.INTER_LINEAR)
-    #show frame
-    cv2.imshow('frame',new_frm)
-    #get a small summary of the number of object of each class
-    summ=detector_1.get_current_class_summary()
-    print(f"frame:{FRAME_NUMBER}, summary:{summ}")
-    #quite using the q key
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-cap.release()
-cv2.destroyAllWindows()
+run_video(VIDEO_PATH,(480,270),detector_1)
