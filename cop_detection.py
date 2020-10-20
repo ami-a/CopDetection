@@ -33,6 +33,7 @@ detector_1=Detector(
     ),
     visualization_vars=VisualizationVars(
         labels=["Citizen","Cop"],
+        colors=["Green","Red","Cyan"],
         show_trackers=True,
         uncertainty_threshold=0.5,
         uncertainty_label="Getting Info"
@@ -40,5 +41,7 @@ detector_1=Detector(
 )
 
 #Test it on a video
-VIDEO_PATH="video/024.mp4"
+VIDEO_PATH="video/032.mp4"
 run_video(VIDEO_PATH,(480,270),detector_1)
+# from play_video import save_video
+# save_video(VIDEO_PATH,(480,270),detector_1,"video/cop_032.avi")
