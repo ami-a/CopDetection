@@ -1,7 +1,7 @@
 """An example for using the TackEverything package
 This example uses an Object Detection model from the TensorFlow git
 for detecting humans. Using a simple citizen/cop classification model
-I've created using TF, it can now easly detect and track cops in a video using
+I've created using TF, it can now easily detect and track cops in a video using
 a few lines of code.
 The use of the TrackEverything package make the models much more accurate
 and robust, using tracking features and statistics.
