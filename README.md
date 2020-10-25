@@ -19,3 +19,7 @@ After we have the persons from the detection model, I put them through a classif
 I only tested it on some videos I found online but the results are pretty good for cops and ok for parking officers. It requires more work and maybe a decent cop dataset to take the cop model further and into more countries.
 <p align="center"><img src="images/screens/cop01.png" width=564 height=383></p>
 <p align="center"><img src="images/screens/cop02.png" width=564 height=383></p>
+
+## Old Version
+
+The original project was the inspiration for the TrackEverything package and part of it can be found [here](https://gitlab.com/Byakugan/police).
